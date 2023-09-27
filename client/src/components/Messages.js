@@ -2,6 +2,7 @@ import React, { createRef, useEffect, useState } from "react";
 import Message from "./Message";
 
 function Messages(props) {
+  const submessagesRef  =createRef();
   const refMsg = createRef();
   const [online, setOnline] = useState(false);
   const [msg, setMsg] = useState("");
@@ -27,6 +28,9 @@ function Messages(props) {
       });
       inputRef.current.value = "";
     }
+    submessagesRef.current.scrollBy({
+      top:100,
+    });
   };
   const showUsers = () => {
     props.setShow(true);
@@ -76,12 +80,14 @@ function Messages(props) {
           </svg>
         </button>
       </div>
-      <div className="messages w-full flex flex-col bg-slate-700 text-slate-100 relative">
+      <div className="messages  w-full flex flex-col bg-slate-700 text-slate-100 relative">
         {/* here messages section and send , recieve messages */}
-        <div className="overflow-auto w-full  flex justify-end flex-col submessages bg-slate-500 text-slate-900">
+        <div className="overflow-auto w-full  submessages bg-slate-500 text-slate-900" ref={submessagesRef}>
+          <div className="flex-col flex min-h-full justify-end">
           {props.messages.map((msg) => (
             <Message user={props.user} msg={msg} />
           ))}
+          </div>
         </div>
         <div className="w-full bg-slate-100 text-slate-100  bg-slate-700  flex send  bottom-0">
           <input
